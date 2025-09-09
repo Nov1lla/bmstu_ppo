@@ -25,7 +25,7 @@ Regard|Веб приложение|Россия|Компьютерные дев�
 
 ## 6. Use-Case  
 
-![Use-Case](./img/use_case.png)
+![Use-Case](./img/use_case.svg)
 
 ## 7. ER 
 
