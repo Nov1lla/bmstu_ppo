@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://bpmn.io/schema/bpmn">
+  
+  <bpmn:process id="Process_1">
+    <!-- Клиентский процесс -->
+    <bpmn:startEvent id="Event_0etghdb" name="Начало"/>
+    <bpmn:task id="Activity_11c1uh5" name="выбрать товары"/>
+    <bpmn:exclusiveGateway id="Gateway_050pqfd" name="Товары есть?"/>
+    <bpmn:task id="Activity_19n6vl6" name="добавить в корзину"/>
+    <bpmn:exclusiveGateway id="Gateway_011q6xe" name="использовать ли промокод"/>
+    <bpmn:task id="Activity_1gcbp5p" name="применять промокод"/>
+    <bpmn:task id="Activity_1ll6kz0" name="оплатить товары"/>
+    <bpmn:intermediateCatchEvent id="Event_00mj1hx" name="ждать готов заказа"/>
+    <bpmn:endEvent id="Event_19jfjuk" name="Успешное завершение"/>
+    <bpmn:endEvent id="Event_0gayj7w" name="Альтернативное завершение"/>
+
+    <!-- Потоки клиентского процесса -->
+    <bpmn:sequenceFlow id="Flow_1wdvpez" sourceRef="Event_0etghdb" targetRef="Activity_11c1uh5"/>
+    <bpmn:sequenceFlow id="Flow_0mv1q0j" sourceRef="Activity_11c1uh5" targetRef="Gateway_050pqfd"/>
+    <bpmn:sequenceFlow id="Flow_0u9v030" sourceRef="Gateway_050pqfd" targetRef="Activity_19n6vl6" name="да"/>
+    <bpmn:sequenceFlow id="Flow_0c41s5r" sourceRef="Gateway_050pqfd" targetRef="Event_0gayj7w" name="нет"/>
+    <bpmn:sequenceFlow id="Flow_11pwg4z" sourceRef="Activity_19n6vl6" targetRef="Gateway_011q6xe"/>
+    <bpmn:sequenceFlow id="Flow_0z5mx9q" sourceRef="Gateway_011q6xe" targetRef="Activity_1gcbp5p" name="да"/>
+    <bpmn:sequenceFlow id="Flow_07hxdc6" sourceRef="Gateway_011q6xe" targetRef="Activity_1ll6kz0" name="нет"/>
+    <bpmn:sequenceFlow id="Flow_1qibjt2" sourceRef="Activity_1gcbp5p" targetRef="Activity_1ll6kz0"/>
+    <bpmn:sequenceFlow id="Flow_1c5fqw2" sourceRef="Activity_1ll6kz0" targetRef="Event_00mj1hx"/>
+    <bpmn:sequenceFlow id="Flow_1j88iev" sourceRef="Event_00mj1hx" targetRef="Event_19jfjuk"/>
+
+    <!-- Административный процесс -->
+    <bpmn:startEvent id="Event_00w0btg" name="запрос товары"/>
+    <bpmn:task id="Activity_082qs8y" name="Подготовить товары"/>
+    <bpmn:endEvent id="Event_0ax24ri" name="заказ готов к выдаче"/>
+    <bpmn:dataStoreReference id="DataStoreReference_032pag8" name="склад"/>
+
+    <!-- Потоки административного процесса -->
+    <bpmn:sequenceFlow id="Flow_1pbc5nh" sourceRef="Event_00w0btg" targetRef="Activity_082qs8y"/>
+    <bpmn:sequenceFlow id="Flow_1o8pjph" sourceRef="Activity_082qs8y" targetRef="Event_0ax24ri"/>
+
+    <!-- Связь между процессами -->
+    <bpmn:messageFlow id="Flow_15q6qzj" sourceRef="Activity_1ll6kz0" targetRef="Event_00w0btg"/>
+    <bpmn:dataInputAssociation id="DataInputAssociation_1xzdepc" sourceRef="DataStoreReference_032pag8" targetRef="Activity_082qs8y"/>
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane>
+      <!-- Здесь должна быть разметка элементов диаграммы -->
+      <!-- Для краткости опущена подробная разметка координат -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn:definitions>
